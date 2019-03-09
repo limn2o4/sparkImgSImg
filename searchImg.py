@@ -17,9 +17,9 @@ def Hdistance(str1,str2):
         assert(len(str1)==len(str2.value))
         return sum([ch1 != ch2 for ch1,ch2 in zip(str1,str2.value)])/64.0
 
-def mapPoint(data):
+def getHPoint(data):
     zero_point_str = '0'*64
-    return data.map(lambda x : (x[0],Hdistance(x[1],zero_point_str)))
+    return Hdistance(zero_point_str,data)
     
 if __name__ == '__main__':
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     img_data = img_data_df.rdd.map(lambda p : (p._c0,p._c1))
 
 
-    points = mapPoint(img_data).cache()
+    points = img_data.map(lambda x : (x[0],getHPoint(x[1])))
 
     feat_points =points.map(lambda x : np.array(x[1]))
 
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     target_hash = get_pHash(target_img)
     #print(target_hash)
 
-    target_cluster = model.predict([Hdistance(target_hash,'0'*64)])
+    target_cluster = model.predict([getHPoint(target_hash)])
 
     same_cluster_data = points.map(lambda x : (x[0],model.predict([x[1]]))).filter(lambda x : x[1] == target_map_cluster)
 
