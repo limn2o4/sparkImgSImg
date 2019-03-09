@@ -26,7 +26,8 @@ def get_pHash(img):
     #return ''.join(['%x' % int(''.join(bin_list[x:x+4]),2) for x in range(0,64,4)])
 
 
-
+def get_phash_int(img) -> int:
+    return int(get_pHash(img),2)
 if __name__ == '__main__':
     
     
