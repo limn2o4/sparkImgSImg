@@ -14,12 +14,15 @@ if __name__ == '__main__':
 
     conf = SparkConf().setMaster('local[*]').setAppName("imgSearch")
     sc = SparkContext(conf=conf)
+    
     sqlContext = sql.SQLContext(sc)
     img_data_df = sqlContext.read.csv('/home/limn2o4/Documents/Code/SparkImgSImg/img_data.csv')
     img_data = img_data_df.rdd.map(lambda p : (p._c0,p._c1))
+
     target_img = cv2.imread('/home/limn2o4/Documents/jpg/100503.jpg')
     target_hash = get_pHash(target_img)
     #print(target_hash)
+    
     search_hash = sc.broadcast(target_hash)
 
     def hamming_distance(str1):
