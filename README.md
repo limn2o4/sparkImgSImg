@@ -9,3 +9,6 @@ and though it's is a local version,upgrade to yarn version is ez
 
 # TODO:  
 update to streaming version,like reading hash nuumber from kafka
+
+# License
+to support the 996.icu event,add 996 LICENSE to this project
